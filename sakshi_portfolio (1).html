@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sakshi Sunil Vadgave | Portfolio</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- React & Tailwind Setup -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: '#0B0F19',
+                        purple: {
+                            DEFAULT: '#8B5CF6',
+                            glow: 'rgba(139, 92, 246, 0.5)'
+                        },
+                        cyan: {
+                            DEFAULT: '#06B6D4',
+                            glow: 'rgba(6, 182, 212, 0.5)'
+                        },
+                        textMain: '#F8FAFC',
+                        textMuted: '#94A3B8',
+                        glass: 'rgba(255, 255, 255, 0.03)',
+                        glassHover: 'rgba(255, 255, 255, 0.08)',
+                        glassBorder: 'rgba(255, 255, 255, 0.08)'
+                    },
+                    fontFamily: {
+                        outfit: ['Outfit', 'sans-serif'],
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'blink': 'blink 1s step-end infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        blink: {
+                            '0%, 100%': { opacity: 1 },
+                            '50%': { opacity: 0 },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0B0F19;
+            color: #F8FAFC;
+            overflow-x: hidden;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0B0F19;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #8B5CF6;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .text-gradient {
+            background: linear-gradient(to right, #F8FAFC, #94A3B8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .text-gradient-accent {
+            background: linear-gradient(to right, #8B5CF6, #06B6D4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Hide scrollbar for clean carousel */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="font-inter antialiased selection:bg-purple-500/30 selection:text-white">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // Custom Intersection Observer Hook
+        const Reveal = ({ children, delay = 0, direction = "up", className = "" }) => {
+            const [isVisible, setIsVisible] = useState(false);
+            const ref = useRef(null);
+
+            useEffect(() => {
+                const observer = new IntersectionObserver(
+                    ([entry]) => {
+                        if (entry.isIntersecting) {
+                            setIsVisible(true);
+                            observer.unobserve(entry.target);
+                        }
+                    },
+                    { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+                );
+
+                if (ref.current) observer.observe(ref.current);
+                return () => observer.disconnect();
+            }, []);
+
+            let transformClass = 'translate-y-10';
+            if (direction === 'left') transformClass = '-translate-x-10';
+            if (direction === 'right') transformClass = 'translate-x-10';
+            if (direction === 'scale') transformClass = 'scale-75';
+
+            return (
+                <div 
+                    ref={ref} 
+                    className={`transition-all duration-1000 ease-[cubic-bezier(0.17,0.55,0.55,1)] ${isVisible ? 'opacity-100 translate-y-0 translate-x-0 scale-100' : `opacity-0 ${transformClass}`} ${className}`}
+                    style={{ transitionDelay: `${delay}s` }}
+                >
+                    {children}
+                </div>
+            );
+        };
+
+        const Icons = {
+            Github: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>,
+            Linkedin: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>,
+            Mail: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>,
+            Download: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>,
+            ExternalLink: () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>,
+            Menu: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>,
+            X: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>,
+            Code: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>,
+            Terminal: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></svg>,
+            Brain: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/><path d="M17.599 6.5a3 3 0 0 0 .399-1.375"/><path d="M6.002 6.5A3 3 0 0 1 5.602 5.125"/><path d="M11.8 21.9a1 1 0 0 0 .4 0"/></svg>,
+            Trophy: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>,
+            Star: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>,
+            Sparkles: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>,
+            Send: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>,
+            MessageCircle: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>,
+            Network: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/></svg>,
+            Colab: () => <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path fill="#f9ab00" d="M128.5 131.6l-37-37.1 37-37.1 37 37.1-37 37.1zM89.3 170.8L126.4 208l37.1-37.2-37.1-37.1-37.1 37.1z"/><path fill="#e8710a" d="M128.5 131.6l37-37.1 52.3 52.3-89.3 89.3z"/></svg>,
+            Layout: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="3" x2="21" y1="9" y2="9"/><line x1="9" x2="9" y1="21" y2="9"/></svg>,
+            Cpu: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="16" height="16" x="4" y="4" rx="2" ry="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg>,
+            ChevronLeft: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>,
+            ChevronRight: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        };
+
+        const skillsGridData = [
+            {
+                category: "Programming Languages",
+                icon: <Icons.Code />,
+                glow: "from-purple/20 to-cyan/20",
+                skills: [
+                    { name: "C", image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/c/c-original.svg" },
+                    { name: "C++", image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg" },
+                    { name: "Java", image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg" },
+                    { name: "Python", image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" }
+                ]
+            },
+            {
+                category: "Web Technologies",
+                icon: <Icons.Layout />,
+                glow: "from-cyan/20 to-purple/20",
+                skills: [
+                    { name: "HTML5", image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" },
+                    { name: "CSS3", image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" }
+                ]
+            },
+            {
+                category: "Tools & Platforms",
+                icon: <Icons.Terminal />,
+                glow: "from-purple/20 to-purple/5",
+                skills: [
+                    { name: "VS Code", image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg" },
+                    { name: "Git", image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg" },
+                    { name: "GitHub", component: <Icons.Github /> },
+                    { name: "Figma", image: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg" },
+                    { name: "Google Colab", component: <Icons.Colab /> }
+                ]
+            },
+            {
+                category: "AI & Learning",
+                icon: <Icons.Brain />,
+                glow: "from-cyan/20 to-cyan/5",
+                skills: [
+                    { name: "Artificial Intelligence", component: <Icons.Brain /> },
+                    { name: "Machine Learning", component: <Icons.Cpu /> }
+                   
+                ]
+            }
+        ];
+
+        const projectsData = [
+            {
+                title: "Srishti",
+                description: "An AI-powered text summarization application focused on simplifying long-form content into meaningful summaries.",
+                tech: ["Python", "AI", "NLP"],
+                image: "https://placehold.co/600x400/1e293b/8B5CF6?text=Srishti+AI+App",
+                // 👇 PUT YOUR PROJECT GITHUB LINK HERE 👇
+                github: "https://github.com/yourusername/srishti",
+                // 👇 PUT YOUR PROJECT LIVE DEMO LINK HERE (Leave as "#" if you don't have one) 👇
+                demo: "https://your-srishti-live-link.com"
+            },
+            {
+                title: "Deepfake AI Detector",
+                description: "A hackathon team project developed to detect manipulated AI-generated media using AI concepts and intelligent analysis.",
+                tech: ["Python", "AI", "Machine Learning"],
+                image: "https://placehold.co/600x400/1e293b/06B6D4?text=Deepfake+Detector",
+                // 👇 PUT YOUR PROJECT GITHUB LINK HERE 👇
+                github: "https://github.com/yourusername/deepfake-detector",
+                // 👇 PUT YOUR PROJECT LIVE DEMO LINK HERE 👇
+                demo: "https://your-deepfake-live-link.com"
+            }
+        ];
+
+        const achievementsJourneyData = [
+            {
+                category: "Academic Excellence",
+                title: "Top Semester Ranker",
+                event: "Yashwantrao Chavan Polytechnic",
+                date: "Semesters 1 - 3",
+                location: "Kolhapur, Maharashtra",
+                desc: "Secured 1st Rank with 93.06% in 1st Semester. Continued the streak of academic excellence by securing 2nd Rank in both 2nd Semester (94.59%) and 3rd Semester (93.41%).",
+                // 👇 PUT YOUR PHOTO NAME HERE (Example: "ranker-award.jpg") 👇
+                image: "Rank.jpeg",
+                tags: ["Top 1%", "94.59% Score", "Academics"]
+            },
+            {
+                category: "Innovation & Tech",
+                title: "Winner, Idea Presentation",
+                event: "Inter College YASH 2K26",
+                date: "March 2026",
+                location: "YCP Campus",
+                desc: "Secured 1st place among numerous inter-college participants for presenting a highly innovative and feasible technological concept, demonstrating strong problem-solving and presentation skills.",
+                // 👇 PUT YOUR PHOTO NAME HERE 👇
+                image: "YashWinner.jpeg",
+                tags: ["1st Place", "Innovation", "Tech Pitch"]
+            },
+            {
+                category: "Communication",
+                title: "Runner-Up, PPT Presentation",
+                event: "Shiv Shauryagatha",
+                date: "Recent Event",
+                location: "Main Auditorium",
+                desc: "Showcased excellent presentation, deep research, and technical communication skills to secure the Runner-Up position in a highly competitive technical presentation event.",
+                // 👇 PUT YOUR PHOTO NAME HERE 👇
+                image: "PPT.jpeg",
+                tags: ["Runner-Up", "Public Speaking", "Research"]
+            },
+            {
+                category: "Public Speaking",
+                title: "Dual Speech Champion",
+                event: "Ambedkar Jayanti & Science Day",
+                date: "Recent Event",
+                location: "College Seminar Hall",
+                desc: "Demonstrated exceptional oratory skills by securing 1st Place in the Dr. Babasaheb Ambedkar Jayanti Speech Competition as well as the National Science Day Speech Competition.",
+                // 👇 PUT YOUR PHOTO NAME HERE 👇
+                image: "Speech.jpeg",
+                tags: ["1st Place", "Oratory", "Champion"]
+            },
+            {
+                category: "Global Leadership",
+                title: "Google Student Ambassador",
+                event: "Gemini 2.0 Program 2025",
+                date: "2025 Term",
+                location: "Global / Remote",
+                desc: "Selected globally as a Google Student Ambassador to explore, build, and advocate for Gemini 2.0 AI technologies within the developer community and campus.",
+                // 👇 PUT YOUR PHOTO NAME HERE 👇
+                image: "GSA.jpeg",
+                tags: ["Google", "AI Advocate", "Leadership"]
+            },
+            {
+                category: "Event Management",
+                title: "Core Volunteer & Anchor",
+                event: "BattleZone YASH 2K25 & Cultural Fests",
+                date: "2024 - 2025",
+                location: "College Campus",
+                desc: "Core volunteer for the BattleZone Championship. Successfully managed and anchored multiple fresher events, technical workshops, and annual cultural functions.",
+                // 👇 PUT YOUR PHOTO NAME HERE 👇
+                image: "volun.jpeg",
+                tags: ["Anchoring", "Management", "Volunteering"]
+            }
+        ];
+
+        const leadershipData = [
+            { title: "Event Anchoring", desc: "Anchored workshops, fresher events, annual cultural events, and college programs with confidence." },
+            { title: "Event Management", desc: "Managed Teacher’s Day and Farewell Functions gracefully." },
+            { title: "Technical Volunteering", desc: "Volunteer during BattleZone Championship under YASH 2K25 & Hackathon under Google Student Ambassador Program." },
+            { title: "Soft Skills", desc: "Demonstrated strong leadership, teamwork, communication, and coordination skills across all activities." }
+        ];
+
+        const SectionHeading = ({ title, subtitle }) => (
+            <div className="text-center mb-16">
+                <Reveal>
+                    <h2 className="text-3xl md:text-5xl font-outfit font-bold text-white mb-4">
+                        {title}
+                    </h2>
+                </Reveal>
+                {subtitle && (
+                    <Reveal delay={0.1}>
+                        <div className="w-24 h-1 bg-gradient-to-r from-purple to-cyan mx-auto rounded-full" />
+                    </Reveal>
+                )}
+            </div>
+        );
+
+        const Navbar = () => {
+            const [scrolled, setScrolled] = useState(false);
+            const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+            useEffect(() => {
+                const handleScroll = () => setScrolled(window.scrollY > 50);
+                window.addEventListener('scroll', handleScroll);
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+
+            const navLinks = [
+                { name: 'Home', href: '#home' },
+                { name: 'About', href: '#about' },
+                { name: 'Skills', href: '#skills' },
+                { name: 'Projects', href: '#projects' },
+                { name: 'Achievements', href: '#achievements' },
+                { name: 'Contact', href: '#contact' },
+            ];
+
+            return (
+                <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-dark/80 backdrop-blur-xl border-b border-white/5 py-4' : 'bg-transparent py-6'}`}>
+                    <div className="max-w-7xl mx-auto px-6 flex items-center justify-between relative z-20">
+                        <a href="#home" className="text-xl font-outfit font-bold text-white tracking-wider flex items-center gap-2">
+                            <span className="w-8 h-8 rounded-full bg-gradient-to-tr from-purple to-cyan flex items-center justify-center text-sm">SV</span>
+                            Sakshi
+                        </a>
+                        
+                        {/* Desktop Nav */}
+                        <div className="hidden md:flex items-center gap-8">
+                            {navLinks.map((link) => (
+                                <a key={link.name} href={link.href} className="text-sm font-medium text-textMuted hover:text-white transition-colors">
+                                    {link.name}
+                                </a>
+                            ))}
+                        </div>
+
+                        {/* Mobile Menu Toggle */}
+                        <button className="md:hidden text-white" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+                            {mobileMenuOpen ? <Icons.X /> : <Icons.Menu />}
+                        </button>
+                    </div>
+
+                    {/* Mobile Nav */}
+                    <div className={`md:hidden absolute top-full left-0 w-full bg-dark/95 backdrop-blur-xl border-b border-white/5 overflow-hidden transition-all duration-300 ${mobileMenuOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0'}`}>
+                        <div className="flex flex-col px-6 py-4 space-y-4">
+                            {navLinks.map((link) => (
+                                <a key={link.name} href={link.href} onClick={() => setMobileMenuOpen(false)} className="text-base font-medium text-textMuted hover:text-white transition-colors">
+                                    {link.name}
+                                </a>
+                            ))}
+                        </div>
+                    </div>
+                </nav>
+            );
+        };
+
+        const Hero = () => {
+            const phrases = ["AI Enthusiast", "Tech Explorer", "Creative Thinker", "Computer Engineering Student"];
+            const [currentPhrase, setCurrentPhrase] = useState('');
+            const [isDeleting, setIsDeleting] = useState(false);
+            const [loopNum, setLoopNum] = useState(0);
+            const typingSpeed = 100;
+            
+            useEffect(() => {
+                let timer;
+                const handleTyping = () => {
+                    const i = loopNum % phrases.length;
+                    const fullText = phrases[i];
+
+                    setCurrentPhrase(isDeleting 
+                        ? fullText.substring(0, currentPhrase.length - 1) 
+                        : fullText.substring(0, currentPhrase.length + 1)
+                    );
+
+                    if (!isDeleting && currentPhrase === fullText) {
+                        timer = setTimeout(() => setIsDeleting(true), 1500);
+                    } else if (isDeleting && currentPhrase === '') {
+                        setIsDeleting(false);
+                        setLoopNum(loopNum + 1);
+                    } else {
+                        timer = setTimeout(handleTyping, isDeleting ? typingSpeed / 2 : typingSpeed);
+                    }
+                };
+                timer = setTimeout(handleTyping, isDeleting ? typingSpeed / 2 : typingSpeed);
+                return () => clearTimeout(timer);
+            }, [currentPhrase, isDeleting, loopNum]);
+
+            return (
+                <section id="home" className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+                    {/* Background effects */}
+                    <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple/20 rounded-full mix-blend-screen filter blur-[100px] animate-blob"></div>
+                    <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-cyan/20 rounded-full mix-blend-screen filter blur-[100px] animate-blob" style={{animationDelay: '2s'}}></div>
+                    
+                    <div className="relative z-10 text-center px-6 max-w-4xl mx-auto flex flex-col items-center">
+                        <Reveal direction="scale">
+                            <div className="relative mb-8">
+                                <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-purple to-cyan blur-md opacity-70 animate-pulse"></div>
+                                
+                                {/* 👇👇👇 THIS IS YOUR TOP PROFILE PICTURE 👇👇👇 */}
+                                <img 
+                                    src="sakshi.jpeg" 
+                                    onError={(e) => { e.target.src = "https://placehold.co/200x200/1e293b/8B5CF6?text=SV"; }}
+                                    alt="Sakshi Sunil Vadgave" 
+                                    className="relative z-20 w-32 h-32 md:w-40 md:h-40 rounded-full object-cover object-[center_top] border-2 border-white/20 shadow-2xl" 
+                                />
+                                {/* 👆👆👆 THIS IS YOUR TOP PROFILE PICTURE 👆👆👆 */}
+                                
+                            </div>
+                        </Reveal>
+
+                        <Reveal delay={0.2}>
+                            <h1 className="text-4xl md:text-7xl font-outfit font-bold text-white mb-4 tracking-tight">
+                                Sakshi Sunil Vadgave
+                            </h1>
+                        </Reveal>
+                        
+                        <Reveal delay={0.3}>
+                            <div className="h-8 md:h-10 flex items-center justify-center mb-6">
+                                <span className="text-xl md:text-3xl font-outfit text-transparent bg-clip-text bg-gradient-to-r from-purple to-cyan font-medium">
+                                    {currentPhrase}
+                                </span>
+                                <span className="w-1 h-6 md:h-8 bg-cyan ml-1 animate-blink"></span>
+                            </div>
+                        </Reveal>
+
+                        <Reveal delay={0.4}>
+                            <p className="text-base md:text-lg text-textMuted max-w-2xl mx-auto mb-10 font-light leading-relaxed">
+                                Passionate Computer Engineering student exploring AI, innovation, leadership, and impactful technology.
+                            </p>
+                        </Reveal>
+
+                        <Reveal delay={0.5}>
+                            <div className="flex flex-wrap justify-center gap-4 mb-12">
+                                {/* 👇 PUT YOUR RESUME FILE NAME HERE (e.g., href="Sakshi_Resume.pdf") 👇 */}
+                                {/* Make sure your PDF file is in the exact same folder as this HTML file! */}
+                                <a href="Sakshi_Resume.pdf" target="_blank" className="group relative px-8 py-3 bg-white/10 text-white rounded-full font-medium overflow-hidden border border-white/10 hover:border-purple/50 transition-all duration-300">
+                                    <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-purple/30 to-cyan/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                    <span className="relative flex items-center gap-2">
+                                        <Icons.Download /> Resume
+                                    </span>
+                                </a>
+                                
+                              {/* 👇 PUT YOUR EMAIL HERE (e.g., mailto:your.email@gmail.com) 👇 */}
+                                <a href="mailto:sakshi@example.com" className="group relative px-8 py-3 bg-gradient-to-r from-purple to-cyan text-white rounded-full font-medium shadow-[0_0_20px_rgba(139,92,246,0.3)] hover:shadow-[0_0_30px_rgba(6,182,212,0.5)] transition-all duration-300 transform hover:-translate-y-1">
+                                    <span className="relative flex items-center gap-2">
+                                        <Icons.Mail /> Contact Me
+                                    </span>
+                                </a>
+                            </div>
+                        </Reveal>
+
+                        <Reveal delay={0.6}>
+                            <div className="flex items-center justify-center gap-6">
+                                {/* 👇 PUT YOUR GITHUB PROFILE LINK HERE 👇 */}
+                                <a href="https://github.com/yourusername" target="_blank" className="text-textMuted hover:text-white hover:scale-110 transition-all duration-300"><Icons.Github /></a>
+                                
+                                {/* 👇 PUT YOUR LINKEDIN PROFILE LINK HERE 👇 */}
+                                <a href="https://linkedin.com/in/yourprofile" target="_blank" className="text-textMuted hover:text-white hover:scale-110 transition-all duration-300"><Icons.Linkedin /></a>
+                                
+                                {/* 👇 PUT YOUR EMAIL HERE 👇 */}
+                                <a href="mailto:sakshi@example.com" className="text-textMuted hover:text-white hover:scale-110 transition-all duration-300"><Icons.Mail /></a>
+                            </div>
+                        </Reveal>
+                    </div>
+                </section>
+            );
+        };
+
+        const About = () => {
+            return (
+                <section id="about" className="py-24 relative z-10">
+                    <div className="max-w-6xl mx-auto px-6">
+                        <SectionHeading title="About Me" subtitle={true} />
+                        
+                        <Reveal>
+                            <div className="glass-card rounded-3xl p-8 md:p-12 relative overflow-hidden group hover:border-purple/30 transition-all duration-500">
+                                <div className="absolute top-0 right-0 w-64 h-64 bg-purple/10 rounded-full filter blur-[80px] -translate-y-1/2 translate-x-1/2"></div>
+                                
+                                <div className="relative z-10">
+                                    <p className="text-lg md:text-xl text-textMuted leading-relaxed mb-6">
+                                        Hello! I am a 5th-semester Diploma student in <span className="text-white font-medium">Computer Science and Engineering</span> at Yashwantrao Chavan Polytechnic. 
+                                        I am deeply passionate about exploring the world of AI and emerging technologies.
+                                    </p>
+                                    <p className="text-lg md:text-xl text-textMuted leading-relaxed mb-6">
+                                        Beyond writing code, I thrive on continuous learning and leadership. I bring strong communication, creativity, and teamwork skills to every project. I love participating in technical events, anchoring programs, and building impactful solutions.
+                                    </p>
+                                    <p className="text-lg md:text-xl text-white font-medium italic border-l-4 border-cyan pl-4">
+                                        "My ultimate goal is continuous learning and growth in technology, striving to create innovations that matter."
+                                    </p>
+                                </div>
+                            </div>
+                        </Reveal>
+                    </div>
+                </section>
+            );
+        };
+
+        const Skills = () => {
+            return (
+                <section id="skills" className="py-24 relative z-10 bg-[#0B0F19]">
+                    <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMCIgY3k9IjAiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wMykiLz48L3N2Zz4=')] opacity-30"></div>
+                    
+                    <div className="max-w-6xl mx-auto px-6 relative z-10">
+                        <SectionHeading title="Technical Ecosystem" subtitle={true} />
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-16">
+                            {skillsGridData.map((category, index) => (
+                                <Reveal key={index} delay={index * 0.1} direction="up">
+                                    <div className="glass-card rounded-3xl p-8 relative overflow-hidden group hover:border-purple/30 transition-all duration-500 h-full flex flex-col">
+                                        {/* Background Glow */}
+                                        <div className={`absolute -top-24 -right-24 w-48 h-48 bg-gradient-to-br ${category.glow} rounded-full filter blur-[60px] group-hover:scale-150 transition-transform duration-700`}></div>
+                                        
+                                        <div className="relative z-10">
+                                            <div className="flex items-center gap-4 mb-8">
+                                                <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-cyan shadow-lg shadow-black/50">
+                                                    {category.icon}
+                                                </div>
+                                                <h3 className="text-2xl font-outfit font-bold text-white tracking-wide">{category.category}</h3>
+                                            </div>
+                                            
+                                            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-3 lg:grid-cols-4 gap-4 flex-grow content-start">
+                                                {category.skills.map((skill, idx) => (
+                                                    <div key={idx} className="flex flex-col items-center justify-center gap-3 p-4 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-cyan/30 hover:-translate-y-1 transition-all duration-300 cursor-default group/item shadow-lg shadow-black/20">
+                                                        <div className="w-10 h-10 flex items-center justify-center transition-transform duration-300 group-hover/item:scale-110">
+                                                            {skill.component ? (
+                                                                <div className="text-white group-hover/item:text-cyan transition-colors duration-300 [&>svg]:w-8 [&>svg]:h-8">
+                                                                    {skill.component}
+                                                                </div>
+                                                            ) : (
+                                                                <img src={skill.image} alt={skill.name} className="w-8 h-8 object-contain" />
+                                                            )}
+                                                        </div>
+                                                        <span className="text-xs font-medium text-textMuted text-center group-hover/item:text-white transition-colors duration-300">
+                                                            {skill.name}
+                                                        </span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </Reveal>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        const Projects = () => {
+            const [insights, setInsights] = useState({});
+            const [loadingInsight, setLoadingInsight] = useState(null);
+
+            const generateInsight = async (projectIndex, projectTitle, projectDesc, projectTech) => {
+                if (insights[projectIndex]) return; 
+                
+                setLoadingInsight(projectIndex);
+                const apiKey = ""; // Add Gemini key to use
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+                const delays = [1000, 2000, 4000, 8000, 16000];
+                
+                const payload = {
+                    contents: [{ parts: [{ text: `You are an expert AI recruiter analyzing a student's portfolio. Project Title: ${projectTitle}. Description: ${projectDesc}. Tech Stack: ${projectTech.join(', ')}. Provide a single, punchy, inspiring sentence explaining the real-world value or potential of this specific project. Limit response to 1 sentence.` }] }]
+                };
+
+                for (let i = 0; i < delays.length; i++) {
+                    try {
+                        const response = await fetch(url, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+                        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                        const data = await response.json();
+                        setInsights(prev => ({...prev, [projectIndex]: data.candidates?.[0]?.content?.parts?.[0]?.text || "A fantastic demonstration of modern problem solving."}));
+                        break;
+                    } catch (error) {
+                        if (i === delays.length - 1) {
+                            setInsights(prev => ({...prev, [projectIndex]: "A fantastic demonstration of modern problem solving."}));
+                        }
+                        await new Promise(res => setTimeout(res, delays[i]));
+                    }
+                }
+                setLoadingInsight(null);
+            };
+
+            return (
+                <section id="projects" className="py-24 relative z-10">
+                    <div className="max-w-6xl mx-auto px-6">
+                        <SectionHeading title="Featured Projects" subtitle={true} />
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            {projectsData.map((project, index) => (
+                                <Reveal key={index} delay={index * 0.2}>
+                                    <div className="glass-card rounded-3xl overflow-hidden group hover:-translate-y-2 transition-all duration-500 hover:shadow-[0_10px_40px_-15px_rgba(139,92,246,0.3)] hover:border-purple/30 h-full flex flex-col">
+                                        <div className="relative h-60 overflow-hidden shrink-0">
+                                            <div className="absolute inset-0 bg-dark/20 group-hover:bg-transparent transition-colors duration-500 z-10"></div>
+                                            <img src={project.image} alt={project.title} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" />
+                                        </div>
+                                        <div className="p-8 flex flex-col flex-grow bg-dark/40">
+                                            <h3 className="text-2xl md:text-3xl font-outfit font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple to-cyan mb-3 tracking-wide">{project.title}</h3>
+                                            <p className="text-textMuted mb-6 flex-grow font-inter leading-relaxed">{project.description}</p>
+                                            
+                                            <div className="flex flex-wrap gap-2 mb-6">
+                                                {project.tech.map((tech, idx) => (
+                                                    <span key={idx} className="text-xs font-medium px-3 py-1 rounded-full bg-purple/10 text-purple border border-purple/20">
+                                                        {tech}
+                                                    </span>
+                                                ))}
+                                            </div>
+
+                                            <div className="mb-6">
+                                                {insights[index] ? (
+                                                    <div className="p-4 rounded-xl bg-gradient-to-r from-purple/10 to-cyan/10 border border-purple/20 relative transition-all duration-500">
+                                                        <div className="absolute -top-2 -left-2 text-lg drop-shadow-[0_0_5px_rgba(139,92,246,0.8)]">✨</div>
+                                                        <p className="text-sm text-cyan italic leading-relaxed">"{insights[index]}"</p>
+                                                    </div>
+                                                ) : (
+                                                    <button 
+                                                        onClick={() => generateInsight(index, project.title, project.description, project.tech)}
+                                                        disabled={loadingInsight === index}
+                                                        className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple/30 rounded-lg text-sm text-white transition-all flex items-center gap-2 disabled:opacity-50"
+                                                    >
+                                                        {loadingInsight === index ? (
+                                                            <span className="flex gap-1 items-center">
+                                                                <span className="w-1.5 h-1.5 bg-purple rounded-full animate-bounce"></span>
+                                                                <span className="w-1.5 h-1.5 bg-purple rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></span>
+                                                                <span className="w-1.5 h-1.5 bg-purple rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></span>
+                                                            </span>
+                                                        ) : "Get AI Insight ✨"}
+                                                    </button>
+                                                )}
+                                            </div>
+                                            
+                                            <div className="flex gap-4 mt-auto">
+                                                <a href={project.github} className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-white/5 hover:bg-white/10 text-white rounded-xl transition-colors text-sm font-medium border border-white/10">
+                                                    <Icons.Github /> Code
+                                                </a>
+                                                <a href={project.demo} className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-cyan/10 hover:bg-cyan/20 text-cyan rounded-xl transition-colors text-sm font-medium border border-cyan/20">
+                                                    <Icons.ExternalLink /> Live Demo
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </Reveal>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        const AchievementsJourney = () => {
+            const [activeIndex, setActiveIndex] = useState(0);
+            const [touchStart, setTouchStart] = useState(null);
+
+            const handleNext = () => {
+                setActiveIndex((prev) => (prev + 1) % achievementsJourneyData.length);
+            };
+
+            const handlePrev = () => {
+                setActiveIndex((prev) => (prev - 1 + achievementsJourneyData.length) % achievementsJourneyData.length);
+            };
+
+            // Mobile Swipe Support
+            const handleTouchStart = (e) => setTouchStart(e.targetTouches[0].clientX);
+            const handleTouchEnd = (e) => {
+                if (!touchStart) return;
+                const touchEnd = e.changedTouches[0].clientX;
+                if (touchStart - touchEnd > 50) handleNext(); // swipe left
+                if (touchStart - touchEnd < -50) handlePrev(); // swipe right
+                setTouchStart(null);
+            };
+
+            return (
+                <section id="achievements" className="py-24 md:py-32 relative z-10 bg-[#070A12] overflow-hidden">
+                    {/* Cinematic Background Elements */}
+                    <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-purple/10 to-transparent"></div>
+                    <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-cyan/10 to-transparent"></div>
+                    
+                    {/* Floating subtle stars/particles */}
+                    <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at center, white 1px, transparent 1px)', backgroundSize: '100px 100px', opacity: 0.03 }}></div>
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-purple/20 rounded-full blur-[120px] opacity-20 mix-blend-screen pointer-events-none"></div>
+
+                    <div className="max-w-[90rem] mx-auto px-4 sm:px-6 relative z-20">
+                        <SectionHeading title="Cinematic Journey" subtitle={true} />
+                        
+                        <Reveal>
+                            <div className="relative w-full h-[650px] md:h-[550px] mt-12 md:mt-20 flex items-center justify-center perspective-[2000px]"
+                                onTouchStart={handleTouchStart}
+                                onTouchEnd={handleTouchEnd}
+                            >
+                                {achievementsJourneyData.map((item, index) => {
+                                    // Calculate circular relative offset (-1: prev, 0: active, 1: next)
+                                    let offset = index - activeIndex;
+                                    const len = achievementsJourneyData.length;
+                                    if (offset > len / 2) offset -= len;
+                                    if (offset < -len / 2) offset += len;
+
+                                    // Dynamic Classes based on Offset
+                                    let containerClasses = "absolute transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] w-full max-w-sm md:max-w-5xl rounded-[2rem] overflow-hidden glass-card border border-white/10 flex flex-col md:flex-row shadow-2xl bg-dark/80 backdrop-blur-2xl";
+                                    let zIndex = 20 - Math.abs(offset);
+                                    
+                                    if (offset === 0) {
+                                        // ACTIVE CARD
+                                        containerClasses += " z-30 scale-100 opacity-100 translate-x-0 translate-y-0 blur-none border-purple/40 shadow-[0_30px_80px_-15px_rgba(139,92,246,0.3)]";
+                                    } else if (offset === -1) {
+                                        // PREVIOUS CARD
+                                        containerClasses += " z-20 scale-[0.85] opacity-40 -translate-x-[30%] md:-translate-x-[45%] -translate-y-4 blur-[4px] cursor-pointer hover:opacity-60 hover:blur-[2px]";
+                                    } else if (offset === 1) {
+                                        // NEXT CARD
+                                        containerClasses += " z-20 scale-[0.85] opacity-40 translate-x-[30%] md:translate-x-[45%] -translate-y-4 blur-[4px] cursor-pointer hover:opacity-60 hover:blur-[2px]";
+                                    } else {
+                                        // HIDDEN CARDS
+                                        containerClasses += " z-10 scale-75 opacity-0 pointer-events-none blur-xl -translate-y-8";
+                                        if (offset < 0) containerClasses += " -translate-x-[60%]";
+                                        if (offset > 0) containerClasses += " translate-x-[60%]";
+                                    }
+
+                                    return (
+                                        <div 
+                                            key={index} 
+                                            className={containerClasses} 
+                                            style={{ zIndex }}
+                                            onClick={() => {
+                                                if (offset === -1) handlePrev();
+                                                if (offset === 1) handleNext();
+                                            }}
+                                        >
+                                            {/* LEFT SIDE: Image Container */}
+                                            <div className="relative w-full md:w-[45%] h-[250px] md:h-full overflow-hidden group bg-black shrink-0">
+                                                {/* Image Placeholder (Works for any aspect ratio via object-cover) */}
+                                                <img 
+                                                    src={item.image} 
+                                                    alt={item.title} 
+                                                    className={`w-full h-full object-cover transition-transform duration-1000 ease-out ${offset === 0 ? 'group-hover:scale-110' : ''}`}
+                                                />
+                                                {/* Premium Dark Gradients for blending */}
+                                                <div className="absolute inset-0 bg-gradient-to-t from-dark/90 via-dark/20 to-transparent"></div>
+                                                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-dark/95 hidden md:block"></div>
+                                                
+                                                {/* Category Badge overlaying the image */}
+                                                <div className="absolute top-6 left-6 z-20 px-4 py-1.5 bg-black/40 backdrop-blur-md rounded-full text-xs font-semibold tracking-wide text-white border border-white/20 shadow-lg">
+                                                    {item.category}
+                                                </div>
+                                            </div>
+                                            
+                                            {/* RIGHT SIDE: Content */}
+                                            <div className="relative w-full md:w-[55%] p-6 md:p-12 flex flex-col justify-center bg-dark/40">
+                                                {/* Decorative Icon */}
+                                                <div className="absolute top-8 right-8 w-12 h-12 bg-gradient-to-br from-purple/20 to-cyan/20 rounded-full flex items-center justify-center text-cyan shadow-[0_0_20px_rgba(6,182,212,0.3)] hidden md:flex border border-cyan/30">
+                                                    <Icons.Trophy />
+                                                </div>
+
+                                                <div className="flex flex-col gap-1 mb-6">
+                                                    <h3 className="text-2xl md:text-4xl font-outfit font-bold text-white leading-tight">
+                                                        {item.title}
+                                                    </h3>
+                                                    <p className="text-lg md:text-xl font-medium text-transparent bg-clip-text bg-gradient-to-r from-purple to-cyan mt-1">
+                                                        {item.event}
+                                                    </p>
+                                                </div>
+
+                                                <div className="flex items-center gap-4 mb-6 text-xs md:text-sm text-textMuted font-medium">
+                                                    <span className="flex items-center gap-1.5 bg-white/5 px-3 py-1.5 rounded-md border border-white/10">
+                                                        <svg className="w-4 h-4 text-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+                                                        {item.date}
+                                                    </span>
+                                                    <span className="flex items-center gap-1.5 bg-white/5 px-3 py-1.5 rounded-md border border-white/10">
+                                                        <svg className="w-4 h-4 text-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                                                        {item.location}
+                                                    </span>
+                                                </div>
+
+                                                <p className="text-sm md:text-base text-textMuted leading-relaxed mb-8 flex-grow">
+                                                    {item.desc}
+                                                </p>
+
+                                                {/* Tags */}
+                                                <div className="flex flex-wrap gap-2 mt-auto">
+                                                    {item.tags.map((tag, i) => (
+                                                        <span key={i} className="px-3 py-1 rounded-full text-xs font-medium bg-white/5 text-white/80 border border-white/10">
+                                                            #{tag}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+
+                            {/* Elegant Cinematic Controls */}
+                            <div className="flex justify-center items-center gap-8 mt-12 md:mt-20">
+                                <button 
+                                    onClick={handlePrev}
+                                    className="w-14 h-14 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white hover:bg-white/10 hover:border-purple/50 transition-all duration-300 hover:scale-110 active:scale-95 shadow-lg group"
+                                >
+                                    <span className="transform group-hover:-translate-x-1 transition-transform">
+                                        <Icons.ChevronLeft />
+                                    </span>
+                                </button>
+                                
+                                {/* Pagination Indicator */}
+                                <div className="flex gap-3">
+                                    {achievementsJourneyData.map((_, i) => (
+                                        <button 
+                                            key={i}
+                                            onClick={() => setActiveIndex(i)}
+                                            className={`h-1.5 rounded-full transition-all duration-500 ease-out ${i === activeIndex ? 'w-10 bg-gradient-to-r from-purple to-cyan shadow-[0_0_15px_rgba(6,182,212,0.8)]' : 'w-2 bg-white/20 hover:bg-white/40 hover:scale-150'}`}
+                                            aria-label={`Go to slide ${i + 1}`}
+                                        />
+                                    ))}
+                                </div>
+
+                                <button 
+                                    onClick={handleNext}
+                                    className="w-14 h-14 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white hover:bg-white/10 hover:border-cyan/50 transition-all duration-300 hover:scale-110 active:scale-95 shadow-lg group"
+                                >
+                                    <span className="transform group-hover:translate-x-1 transition-transform">
+                                        <Icons.ChevronRight />
+                                    </span>
+                                </button>
+                            </div>
+                        </Reveal>
+                    </div>
+                </section>
+            );
+        };
+
+        const Leadership = () => {
+            return (
+                <section className="py-24 relative z-10">
+                    <div className="max-w-6xl mx-auto px-6">
+                        <SectionHeading title="Beyond Technology" subtitle={true} />
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {leadershipData.map((item, index) => (
+                                <Reveal key={index} direction="scale" delay={index * 0.1}>
+                                    <div className="glass-card p-8 rounded-3xl flex gap-6 items-start group hover:border-purple/30 transition-all duration-300 h-full">
+                                        <div className="w-12 h-12 shrink-0 rounded-full bg-purple/10 flex items-center justify-center text-purple group-hover:bg-purple group-hover:text-white transition-colors duration-300">
+                                            <Icons.Star />
+                                        </div>
+                                        <div>
+                                            <h3 className="text-xl font-outfit font-bold text-white mb-2">{item.title}</h3>
+                                            <p className="text-textMuted leading-relaxed">{item.desc}</p>
+                                        </div>
+                                    </div>
+                                </Reveal>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        const Contact = () => {
+            return (
+                <section id="contact" className="py-24 relative z-10 bg-black/40 border-t border-white/5">
+                    <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMCIgY3k9IjAiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')] opacity-50"></div>
+                    
+                    <div className="max-w-4xl mx-auto px-6 relative z-10 text-center">
+                        <Reveal>
+                            <div className="glass-card p-10 md:p-16 rounded-3xl border-purple/20 relative overflow-hidden">
+                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-cyan/10 rounded-full blur-[80px]"></div>
+                                
+                                <h2 className="text-3xl md:text-5xl font-outfit font-bold text-white mb-6">Want to know more about my journey?</h2>
+                                <p className="text-lg text-textMuted mb-10 max-w-2xl mx-auto">
+                                    Open to learning opportunities, collaborations, and innovative experiences. Let's connect and build something amazing together.
+                                </p>
+                                
+                                <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-12">
+                                    {/* 👇 PUT YOUR RESUME FILE NAME HERE 👇 */}
+                                    <a href="Sakshi_Resume.pdf" target="_blank" className="w-full sm:w-auto px-8 py-4 bg-white/10 text-white rounded-xl font-medium border border-white/10 hover:bg-white/20 transition-all duration-300 flex items-center justify-center gap-2">
+                                        <Icons.Download /> Download Resume
+                                    </a>
+                                    
+                                    {/* 👇 PUT YOUR EMAIL HERE 👇 */}
+                                    <a href="mailto:sakshi@example.com" className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-purple to-cyan text-white rounded-xl font-medium shadow-lg shadow-purple/25 hover:shadow-cyan/25 transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center gap-2">
+                                        <Icons.Mail /> Email Me
+                                    </a>
+                                </div>
+                                
+                                <div className="flex items-center justify-center gap-8 border-t border-white/10 pt-8">
+                                    {/* 👇 PUT YOUR GITHUB PROFILE LINK HERE 👇 */}
+                                    <a href="https://github.com/yourusername" target="_blank" className="text-textMuted hover:text-white transition-colors flex items-center gap-2">
+                                        <Icons.Github /> <span className="hidden sm:inline">GitHub</span>
+                                    </a>
+                                    
+                                    {/* 👇 PUT YOUR LINKEDIN PROFILE LINK HERE 👇 */}
+                                    <a href="https://linkedin.com/in/yourprofile" target="_blank" className="text-textMuted hover:text-cyan transition-colors flex items-center gap-2">
+                                        <Icons.Linkedin /> <span className="hidden sm:inline">LinkedIn</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </Reveal>
+                    </div>
+                </section>
+            );
+        };
+
+        const Footer = () => (
+            <footer className="py-8 bg-dark border-t border-white/5 text-center relative z-10">
+                <p className="text-textMuted text-sm font-outfit">
+                    Designed & Developed by <span className="text-white font-medium">Sakshi Sunil Vadgave</span> &copy; 2026
+                </p>
+            </footer>
+        );
+
+        const AIAssistant = () => {
+            const [isOpen, setIsOpen] = useState(false);
+            const [messages, setMessages] = useState([
+                { role: 'assistant', text: "Hi! I'm Sakshi's AI twin ✨. Ask me anything about her skills, projects, or background!" }
+            ]);
+            const [input, setInput] = useState('');
+            const [isLoading, setIsLoading] = useState(false);
+            const messagesEndRef = useRef(null);
+
+            const scrollToBottom = () => {
+                messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+            };
+
+            useEffect(() => {
+                scrollToBottom();
+            }, [messages, isLoading, isOpen]);
+
+            const callGeminiWithBackoff = async (userMessage) => {
+                const apiKey = ""; // Add API key to use
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+                const delays = [1000, 2000, 4000, 8000, 16000];
+                
+                const payload = {
+                    contents: [{ parts: [{ text: userMessage }] }],
+                    systemInstruction: {
+                        parts: [{ 
+                            text: "You are the AI assistant for Sakshi Sunil Vadgave's portfolio website. You speak on her behalf, politely and professionally. Here is Sakshi's info: She is a 5th-semester Diploma student in Computer Science and Engineering at Yashwantrao Chavan Polytechnic. She secured 1st rank (93.06%) in 1st sem, 2nd rank (94.59%) in 2nd sem, and 2nd rank (93.41%) in 3rd sem. She built 'Srishti' (an AI text summarization app) and 'Deepfake AI Detector'. She is a Google Student Ambassador 2025 (Gemini 2.0 Program), and winner of multiple presentation and speech competitions. She excels in C, C++, Java, Python, AI, leadership, and event anchoring. Keep your answers relatively short (1-3 sentences max) and conversational." 
+                        }]
+                    }
+                };
+
+                for (let i = 0; i < delays.length; i++) {
+                    try {
+                        const response = await fetch(url, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+                        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                        const data = await response.json();
+                        return data.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I'm having trouble processing that right now.";
+                    } catch (error) {
+                        if (i === delays.length - 1) return "Network error or API limit reached. Please try again later.";
+                        await new Promise(res => setTimeout(res, delays[i]));
+                    }
+                }
+            };
+
+            const handleSend = async () => {
+                if (!input.trim() || isLoading) return;
+                
+                const userMessage = input.trim();
+                setInput('');
+                setMessages(prev => [...prev, { role: 'user', text: userMessage }]);
+                setIsLoading(true);
+
+                const aiResponse = await callGeminiWithBackoff(userMessage);
+                
+                setMessages(prev => [...prev, { role: 'assistant', text: aiResponse }]);
+                setIsLoading(false);
+            };
+
+            return (
+                <div className="fixed bottom-6 right-6 z-50">
+                    {/* Chat Window */}
+                    <div className={`absolute bottom-20 right-0 w-[calc(100vw-3rem)] md:w-96 bg-dark/95 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-[0_0_40px_rgba(139,92,246,0.15)] transition-all duration-500 origin-bottom-right ${isOpen ? 'scale-100 opacity-100 pointer-events-auto' : 'scale-90 opacity-0 pointer-events-none'}`}>
+                        {/* Header */}
+                        <div className="p-4 border-b border-white/10 flex justify-between items-center bg-gradient-to-r from-purple/10 to-cyan/10 rounded-t-2xl">
+                            <div className="flex items-center gap-3">
+                                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple to-cyan flex items-center justify-center text-white">
+                                    <Icons.Sparkles />
+                                </div>
+                                <div>
+                                    <h3 className="text-white font-outfit font-medium text-sm">Sakshi AI</h3>
+                                    <p className="text-xs text-cyan">Online</p>
+                                </div>
+                            </div>
+                            <button onClick={() => setIsOpen(false)} className="text-textMuted hover:text-white transition-colors">
+                                <Icons.X />
+                            </button>
+                        </div>
+                        
+                        {/* Messages */}
+                        <div className="h-72 overflow-y-auto p-4 flex flex-col gap-4">
+                            {messages.map((msg, idx) => (
+                                <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                                    <div className={`max-w-[85%] p-3 rounded-2xl text-sm leading-relaxed ${msg.role === 'user' ? 'bg-purple text-white rounded-br-sm' : 'bg-white/5 text-textMuted border border-white/5 rounded-bl-sm'}`}>
+                                        {msg.text}
+                                    </div>
+                                </div>
+                            ))}
+                            {isLoading && (
+                                <div className="flex justify-start">
+                                    <div className="bg-white/5 border border-white/5 p-4 rounded-2xl rounded-bl-sm flex gap-1">
+                                        <span className="w-1.5 h-1.5 bg-textMuted rounded-full animate-bounce"></span>
+                                        <span className="w-1.5 h-1.5 bg-textMuted rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></span>
+                                        <span className="w-1.5 h-1.5 bg-textMuted rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></span>
+                                    </div>
+                                </div>
+                            )}
+                            <div ref={messagesEndRef} />
+                        </div>
+
+                        {/* Input */}
+                        <div className="p-4 border-t border-white/10 flex gap-2">
+                            <input 
+                                type="text" 
+                                value={input}
+                                onChange={(e) => setInput(e.target.value)}
+                                onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+                                placeholder="Ask me anything..." 
+                                className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-purple/50 transition-colors placeholder:text-textMuted/50"
+                            />
+                            <button 
+                                onClick={handleSend}
+                                disabled={isLoading || !input.trim()}
+                                className="p-2 w-10 h-10 flex items-center justify-center bg-gradient-to-r from-purple to-cyan rounded-xl text-white hover:opacity-90 transition-opacity disabled:opacity-50"
+                            >
+                                <Icons.Send />
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Toggle Button */}
+                    <button 
+                        onClick={() => setIsOpen(!isOpen)}
+                        className="w-14 h-14 bg-gradient-to-r from-purple to-cyan rounded-full shadow-[0_0_20px_rgba(139,92,246,0.4)] hover:shadow-[0_0_30px_rgba(6,182,212,0.6)] flex items-center justify-center text-white transform hover:-translate-y-1 transition-all duration-300"
+                    >
+                        {isOpen ? <Icons.X /> : <Icons.MessageCircle />}
+                    </button>
+                </div>
+            );
+        };
+
+        const App = () => {
+            return (
+                <div className="relative">
+                    <Navbar />
+                    <Hero />
+                    <About />
+                    <Skills />
+                    <Projects />
+                    <AchievementsJourney />
+                    <Leadership />
+                    <Contact />
+                    <Footer />
+                    <AIAssistant />
+                </div>
+            );
+        };
+
+        // Render the app
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
