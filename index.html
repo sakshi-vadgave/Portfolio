@@ -42,6 +42,9 @@
                     animation: {
                         'blob': 'blob 7s infinite',
                         'blink': 'blink 1s step-end infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'float-reverse': 'float-reverse 7s ease-in-out infinite',
+                        'float-fast': 'float 4s ease-in-out infinite',
                     },
                     keyframes: {
                         blob: {
@@ -53,6 +56,14 @@
                         blink: {
                             '0%, 100%': { opacity: 1 },
                             '50%': { opacity: 0 },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-15px)' },
+                        },
+                        'float-reverse': {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(15px)' },
                         }
                     }
                 }
@@ -211,8 +222,8 @@
                 glow: "from-cyan/20 to-cyan/5",
                 skills: [
                     { name: "Artificial Intelligence", component: <Icons.Brain /> },
-                    { name: "Machine Learning", component: <Icons.Cpu /> }
-                   
+                    { name: "Machine Learning", component: <Icons.Cpu /> },
+                    { name: "Neural Networks", component: <Icons.Network /> }
                 ]
             }
         ];
@@ -236,7 +247,7 @@
                 // 👇 PUT YOUR PROJECT GITHUB LINK HERE 👇
                 github: "https://github.com/yourusername/deepfake-detector",
                 // 👇 PUT YOUR PROJECT LIVE DEMO LINK HERE 👇
-                demo: "https://your-deepfake-live-link.com"
+                demo: "https://youtu.be/ubsElKFnOvc"
             }
         ];
 
@@ -249,7 +260,7 @@
                 location: "Kolhapur, Maharashtra",
                 desc: "Secured 1st Rank with 93.06% in 1st Semester. Continued the streak of academic excellence by securing 2nd Rank in both 2nd Semester (94.59%) and 3rd Semester (93.41%).",
                 // 👇 PUT YOUR PHOTO NAME HERE (Example: "ranker-award.jpg") 👇
-                image: "Rank.jpeg",
+                image: "Ranker.png",
                 tags: ["Top 1%", "94.59% Score", "Academics"]
             },
             {
@@ -260,7 +271,7 @@
                 location: "YCP Campus",
                 desc: "Secured 1st place among numerous inter-college participants for presenting a highly innovative and feasible technological concept, demonstrating strong problem-solving and presentation skills.",
                 // 👇 PUT YOUR PHOTO NAME HERE 👇
-                image: "YashWinner.jpeg",
+                image: "Yashwinner.png",
                 tags: ["1st Place", "Innovation", "Tech Pitch"]
             },
             {
@@ -271,7 +282,7 @@
                 location: "Main Auditorium",
                 desc: "Showcased excellent presentation, deep research, and technical communication skills to secure the Runner-Up position in a highly competitive technical presentation event.",
                 // 👇 PUT YOUR PHOTO NAME HERE 👇
-                image: "PPT.jpeg",
+                image: "PPT.png",
                 tags: ["Runner-Up", "Public Speaking", "Research"]
             },
             {
@@ -282,7 +293,7 @@
                 location: "College Seminar Hall",
                 desc: "Demonstrated exceptional oratory skills by securing 1st Place in the Dr. Babasaheb Ambedkar Jayanti Speech Competition as well as the National Science Day Speech Competition.",
                 // 👇 PUT YOUR PHOTO NAME HERE 👇
-                image: "Speech.jpeg",
+                image: "Speech.png",
                 tags: ["1st Place", "Oratory", "Champion"]
             },
             {
@@ -293,7 +304,7 @@
                 location: "Global / Remote",
                 desc: "Selected globally as a Google Student Ambassador to explore, build, and advocate for Gemini 2.0 AI technologies within the developer community and campus.",
                 // 👇 PUT YOUR PHOTO NAME HERE 👇
-                image: "GSA.jpeg",
+                image: "GSA.png",
                 tags: ["Google", "AI Advocate", "Leadership"]
             },
             {
@@ -388,7 +399,7 @@
         };
 
         const Hero = () => {
-            const phrases = ["AI Enthusiast", "Tech Explorer", "Creative Thinker", "Computer Engineering Student"];
+            const phrases = ["Computer Engineering Student", "AI & Machine Learning Enthusiast", "Creative Tech Explorer"];
             const [currentPhrase, setCurrentPhrase] = useState('');
             const [isDeleting, setIsDeleting] = useState(false);
             const [loopNum, setLoopNum] = useState(0);
@@ -419,81 +430,149 @@
             }, [currentPhrase, isDeleting, loopNum]);
 
             return (
-                <section id="home" className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+                <section id="home" className="relative min-h-screen flex items-center pt-24 overflow-hidden">
                     {/* Background effects */}
                     <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple/20 rounded-full mix-blend-screen filter blur-[100px] animate-blob"></div>
                     <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-cyan/20 rounded-full mix-blend-screen filter blur-[100px] animate-blob" style={{animationDelay: '2s'}}></div>
                     
-                    <div className="relative z-10 text-center px-6 max-w-4xl mx-auto flex flex-col items-center">
-                        <Reveal direction="scale">
-                            <div className="relative mb-8">
-                                <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-purple to-cyan blur-md opacity-70 animate-pulse"></div>
-                                
-                                {/* 👇👇👇 THIS IS YOUR TOP PROFILE PICTURE 👇👇👇 */}
-                                <img 
-                                    src="sakshi.jpeg" 
-                                    onError={(e) => { e.target.src = "https://placehold.co/200x200/1e293b/8B5CF6?text=SV"; }}
-                                    alt="Sakshi Sunil Vadgave" 
-                                    className="relative z-20 w-32 h-32 md:w-40 md:h-40 rounded-full object-cover object-[center_top] border-2 border-white/20 shadow-2xl" 
-                                />
-                                {/* 👆👆👆 THIS IS YOUR TOP PROFILE PICTURE 👆👆👆 */}
-                                
-                            </div>
-                        </Reveal>
-
-                        <Reveal delay={0.2}>
-                            <h1 className="text-4xl md:text-7xl font-outfit font-bold text-white mb-4 tracking-tight">
-                                Sakshi Sunil Vadgave
-                            </h1>
-                        </Reveal>
+                    <div className="relative z-10 px-6 max-w-7xl mx-auto w-full flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-8">
                         
-                        <Reveal delay={0.3}>
-                            <div className="h-8 md:h-10 flex items-center justify-center mb-6">
-                                <span className="text-xl md:text-3xl font-outfit text-transparent bg-clip-text bg-gradient-to-r from-purple to-cyan font-medium">
-                                    {currentPhrase}
-                                </span>
-                                <span className="w-1 h-6 md:h-8 bg-cyan ml-1 animate-blink"></span>
-                            </div>
-                        </Reveal>
+                        {/* LEFT SIDE: Content */}
+                        <div className="flex-1 text-left flex flex-col items-start w-full mt-10 lg:mt-0">
+                            <Reveal delay={0.1} direction="left">
+                                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 mb-6 backdrop-blur-md">
+                                    <Icons.Sparkles />
+                                    <span className="text-sm font-medium text-textMuted tracking-wide">Tech Innovator</span>
+                                </div>
+                            </Reveal>
 
-                        <Reveal delay={0.4}>
-                            <p className="text-base md:text-lg text-textMuted max-w-2xl mx-auto mb-10 font-light leading-relaxed">
-                                Passionate Computer Engineering student exploring AI, innovation, leadership, and impactful technology.
-                            </p>
-                        </Reveal>
-
-                        <Reveal delay={0.5}>
-                            <div className="flex flex-wrap justify-center gap-4 mb-12">
-                                {/* 👇 PUT YOUR RESUME FILE NAME HERE (e.g., href="Sakshi_Resume.pdf") 👇 */}
-                                {/* Make sure your PDF file is in the exact same folder as this HTML file! */}
-                                <a href="Sakshi_Resume.pdf" target="_blank" className="group relative px-8 py-3 bg-white/10 text-white rounded-full font-medium overflow-hidden border border-white/10 hover:border-purple/50 transition-all duration-300">
-                                    <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-purple/30 to-cyan/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                                    <span className="relative flex items-center gap-2">
-                                        <Icons.Download /> Resume
+                            <Reveal delay={0.2} direction="left">
+                                {/* Name forced on ONE line using whitespace-nowrap and vw scaling for mobile */}
+                                <h1 className="text-[6.5vw] sm:text-5xl lg:text-[3.5rem] xl:text-[4rem] whitespace-nowrap font-outfit font-bold mb-2 tracking-tight text-white">
+                                    Sakshi Sunil Vadgave
+                                </h1>
+                            </Reveal>
+                            
+                            <Reveal delay={0.3} direction="left">
+                                <div className="h-8 md:h-10 flex items-center justify-start mb-6">
+                                    <span className="text-xl md:text-2xl lg:text-3xl font-outfit text-transparent bg-clip-text bg-gradient-to-r from-cyan to-blue-400 font-semibold tracking-wide">
+                                        {currentPhrase}
                                     </span>
-                                </a>
-                                
-                              {/* 👇 PUT YOUR EMAIL HERE (e.g., mailto:your.email@gmail.com) 👇 */}
-                                <a href="mailto:sakshi@example.com" className="group relative px-8 py-3 bg-gradient-to-r from-purple to-cyan text-white rounded-full font-medium shadow-[0_0_20px_rgba(139,92,246,0.3)] hover:shadow-[0_0_30px_rgba(6,182,212,0.5)] transition-all duration-300 transform hover:-translate-y-1">
-                                    <span className="relative flex items-center gap-2">
-                                        <Icons.Mail /> Contact Me
-                                    </span>
-                                </a>
-                            </div>
-                        </Reveal>
+                                    <span className="w-1 h-6 md:h-8 bg-cyan ml-1 animate-blink"></span>
+                                </div>
+                            </Reveal>
 
-                        <Reveal delay={0.6}>
-                            <div className="flex items-center justify-center gap-6">
-                                {/* 👇 PUT YOUR GITHUB PROFILE LINK HERE 👇 */}
-                                <a href="https://github.com/yourusername" target="_blank" className="text-textMuted hover:text-white hover:scale-110 transition-all duration-300"><Icons.Github /></a>
-                                
-                                {/* 👇 PUT YOUR LINKEDIN PROFILE LINK HERE 👇 */}
-                                <a href="https://linkedin.com/in/yourprofile" target="_blank" className="text-textMuted hover:text-white hover:scale-110 transition-all duration-300"><Icons.Linkedin /></a>
-                                
-                                {/* 👇 PUT YOUR EMAIL HERE 👇 */}
-                                <a href="mailto:sakshi@example.com" className="text-textMuted hover:text-white hover:scale-110 transition-all duration-300"><Icons.Mail /></a>
-                            </div>
-                        </Reveal>
+                            <Reveal delay={0.4} direction="left">
+                                <p className="text-base md:text-lg text-textMuted max-w-xl mb-10 font-light leading-relaxed">
+                                    Passionate Computer Engineering student exploring AI, innovation, leadership, and impactful technology.
+                                </p>
+                            </Reveal>
+
+                            <Reveal delay={0.5} direction="left">
+                                <div className="flex flex-wrap items-center gap-4 mb-10">
+                                    {/* 👇 PUT YOUR RESUME FILE NAME HERE 👇 */}
+                                    <a href="file:///C:/Users/vadga/OneDrive/Desktop/Portfolio/Resume.pdf" target="_blank" className="flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-purple to-cyan text-white rounded-full font-medium shadow-[0_0_20px_rgba(139,92,246,0.3)] hover:scale-105 transition-transform duration-300">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
+                                        Resume
+                                    </a>
+                                    
+                                    <a href="#contact" className="flex items-center gap-2 px-8 py-3.5 bg-white/5 border border-white/10 text-white hover:bg-white/10 rounded-full font-medium transition-colors duration-300">
+                                        Contact 
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                                    </a>
+                                </div>
+                            </Reveal>
+
+                            <Reveal delay={0.6} direction="left">
+                                <div className="flex items-center gap-4">
+                                    {/* 👇 PUT YOUR GITHUB LINK HERE 👇 */}
+                                    <a href="https://github.com/sakshi-vadgave" target="_blank" className="w-12 h-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-textMuted hover:text-white hover:bg-white/10 transition-all duration-300"><Icons.Github /></a>
+                                    
+                                    {/* 👇 PUT YOUR LINKEDIN LINK HERE 👇 */}
+                                    <a href="https://www.linkedin.com/in/sakshi-vadgave-554505357?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" className="w-12 h-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-textMuted hover:text-white hover:bg-white/10 transition-all duration-300"><Icons.Linkedin /></a>
+                                    
+                                    {/* 👇 PUT YOUR EMAIL LINK HERE 👇 */}
+                                    <a href="mailto:vadgavesakshi8@gmail.com" className="w-12 h-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-textMuted hover:text-white hover:bg-white/10 transition-all duration-300"><Icons.Mail /></a>
+                                </div>
+                            </Reveal>
+                        </div>
+
+                        {/* RIGHT SIDE: Cyber Tech Frame Image Container */}
+                        <div className="flex-1 w-full flex justify-center lg:justify-end relative mt-12 lg:mt-0">
+                            <Reveal delay={0.4} direction="scale">
+                                <div className="relative w-[320px] h-[400px] md:w-[400px] md:h-[480px] lg:w-[420px] lg:h-[520px] mx-auto lg:ml-auto lg:mr-0 group">
+                                    
+                                    {/* Subtle Ambient Glow behind the card (Expanded -inset-2 for edge glow) */}
+                                    <div className="absolute -inset-2 bg-gradient-to-tr from-purple/50 to-cyan/50 rounded-[2rem] blur-xl opacity-50 group-hover:opacity-80 group-hover:blur-2xl transition-all duration-500"></div>
+                                    
+                                    {/* Main Dark Frame Wrapper */}
+                                    <div className="relative w-full h-full rounded-3xl bg-[#0c1222] border border-white/10 p-3 shadow-[0_0_30px_rgba(139,92,246,0.2)] group-hover:shadow-[0_0_40px_rgba(6,182,212,0.4)] transition-shadow duration-500">
+                                        
+                                        {/* Cyber Corner Accents */}
+                                        <div className="absolute top-4 left-4 w-8 h-8 border-t-2 border-l-2 border-cyan rounded-tl-xl z-20"></div>
+                                        <div className="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-purple rounded-tr-xl z-20"></div>
+                                        <div className="absolute bottom-4 left-4 w-8 h-8 border-b-2 border-l-2 border-purple rounded-bl-xl z-20"></div>
+                                        <div className="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-cyan rounded-br-xl z-20"></div>
+
+                                        {/* Image Box */}
+                                        <div className="relative w-full h-full rounded-[1.25rem] overflow-hidden bg-dark">
+                                            {/* 👇 YOUR IMAGE 👇 */}
+                                            <img 
+                                                src="sakshi.png" 
+                                                onError={(e) => { e.target.src = "https://placehold.co/800x1000/1e293b/8B5CF6?text=Sakshi+Vadgave"; }}
+                                                alt="Sakshi Sunil Vadgave" 
+                                                className="w-full h-full object-cover object-[center_top] filter brightness-95" 
+                                            />
+                                            {/* Soft overlay gradient to blend image nicely into dark mode */}
+                                            <div className="absolute inset-0 bg-gradient-to-t from-[#0c1222]/80 via-transparent to-transparent z-10 pointer-events-none"></div>
+                                        </div>
+                                    </div>
+
+                                    {/* --- FLOATING TECH PILLS --- */}
+                                    
+                                    {/* Top Left Pill - Shifted slightly below the top edge */}
+                                    <div className="absolute top-2 -left-4 md:-left-10 md:top-4 z-30 animate-float">
+                                        <div className="glass-card px-4 py-2.5 rounded-full border border-white/20 shadow-xl flex items-center gap-2 backdrop-blur-xl bg-white/5">
+                                            <span className="w-2 h-2 rounded-full bg-cyan shadow-[0_0_8px_rgba(6,182,212,1)]"></span>
+                                            <span className="text-white text-xs md:text-sm font-medium tracking-wide">AI • Engineering</span>
+                                        </div>
+                                    </div>
+
+                                    {/* Bottom Left Pill - Opposite of Top Ranker, just above the bottom edge */}
+                                    <div className="absolute -left-6 md:-left-12 bottom-12 md:bottom-16 z-30 animate-float" style={{ animationDelay: '1.5s' }}>
+                                        <div className="glass-card px-4 py-2.5 rounded-full border border-white/20 shadow-xl flex items-center gap-2 backdrop-blur-xl bg-white/10">
+                                            <span className="text-white text-xs md:text-sm font-medium tracking-wide">GSA '25</span>
+                                        </div>
+                                    </div>
+
+                                    {/* NEW: Top Right Pill (Public Speaker) - Hanging off top-right edge */}
+                                    <div className="absolute -top-4 -right-4 md:-right-10 md:-top-6 z-30 animate-float" style={{ animationDelay: '2s' }}>
+                                        <div className="glass-card px-4 py-2.5 rounded-full border border-white/20 shadow-xl flex items-center gap-2 backdrop-blur-xl bg-white/5">
+                                            <span className="w-2 h-2 rounded-full bg-cyan shadow-[0_0_8px_rgba(6,182,212,1)]"></span>
+                                            <span className="text-white text-xs md:text-sm font-medium tracking-wide">Public Speaker</span>
+                                        </div>
+                                    </div>
+                                    
+                                    {/* NEW: Middle Right Pill (Leader) - Hanging off middle-right edge */}
+                                    <div className="absolute -right-6 md:-right-12 top-[40%] md:top-[45%] z-30 animate-float" style={{ animationDelay: '1.2s' }}>
+                                        <div className="glass-card px-4 py-2.5 rounded-full border border-white/20 shadow-xl flex items-center gap-2 backdrop-blur-xl bg-white/10">
+                                            <span className="w-2 h-2 rounded-full bg-purple shadow-[0_0_8px_rgba(139,92,246,1)]"></span>
+                                            <span className="text-white text-xs md:text-sm font-medium tracking-wide">Leader</span>
+                                        </div>
+                                    </div>
+
+                                    {/* Bottom Right Pill - Snapped entirely to the bottom-right outer edge */}
+                                    <div className="absolute -bottom-4 -right-4 md:-right-10 md:-bottom-6 z-30 animate-float" style={{ animationDelay: '0.8s' }}>
+                                        <div className="glass-card px-4 py-2.5 rounded-full border border-white/20 shadow-xl flex items-center gap-2 backdrop-blur-xl bg-white/5">
+                                            <span className="w-2 h-2 bg-purple rotate-45 shadow-[0_0_8px_rgba(139,92,246,1)]"></span>
+                                            <span className="text-white text-xs md:text-sm font-medium tracking-wide">Top Ranker</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </Reveal>
+                        </div>
+
                     </div>
                 </section>
             );
@@ -506,12 +585,12 @@
                         <SectionHeading title="About Me" subtitle={true} />
                         
                         <Reveal>
-                            <div className="glass-card rounded-3xl p-8 md:p-12 relative overflow-hidden group hover:border-purple/30 transition-all duration-500">
+                            <div className="glass-card rounded-3xl p-8 md:p-12 relative overflow-hidden group hover:border-purple/30 transition-all duration-500 mb-8">
                                 <div className="absolute top-0 right-0 w-64 h-64 bg-purple/10 rounded-full filter blur-[80px] -translate-y-1/2 translate-x-1/2"></div>
                                 
                                 <div className="relative z-10">
                                     <p className="text-lg md:text-xl text-textMuted leading-relaxed mb-6">
-                                        Hello! I am a 5th-semester Diploma student in <span className="text-white font-medium">Computer Science and Engineering</span> at Yashwantrao Chavan Polytechnic. 
+                                        Hello! I am a 2nd year Diploma student in <span className="text-white font-medium">Computer Science and Engineering</span> at Yashwantrao Chavan Polytechnic. 
                                         I am deeply passionate about exploring the world of AI and emerging technologies.
                                     </p>
                                     <p className="text-lg md:text-xl text-textMuted leading-relaxed mb-6">
@@ -523,6 +602,30 @@
                                 </div>
                             </div>
                         </Reveal>
+
+                        {/* --- STATS BOXES --- */}
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                            <Reveal delay={0.2} direction="up">
+                                <div className="glass-card rounded-2xl p-8 flex flex-col items-center justify-center text-center group hover:-translate-y-2 transition-all duration-500 hover:border-cyan/40 hover:shadow-[0_10px_30px_rgba(6,182,212,0.15)] h-full">
+                                    <h3 className="text-4xl md:text-5xl font-outfit font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan to-blue-400 mb-2">94.59%</h3>
+                                    <p className="text-sm font-medium text-textMuted uppercase tracking-widest group-hover:text-white transition-colors">Top Score</p>
+                                </div>
+                            </Reveal>
+                            
+                            <Reveal delay={0.3} direction="up">
+                                <div className="glass-card rounded-2xl p-8 flex flex-col items-center justify-center text-center group hover:-translate-y-2 transition-all duration-500 hover:border-purple/40 hover:shadow-[0_10px_30px_rgba(139,92,246,0.15)] h-full">
+                                    <h3 className="text-4xl md:text-5xl font-outfit font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple to-cyan mb-2">3x</h3>
+                                    <p className="text-sm font-medium text-textMuted uppercase tracking-widest group-hover:text-white transition-colors">Top Ranker</p>
+                                </div>
+                            </Reveal>
+                            
+                            <Reveal delay={0.4} direction="up">
+                                <div className="glass-card rounded-2xl p-8 flex flex-col items-center justify-center text-center group hover:-translate-y-2 transition-all duration-500 hover:border-cyan/40 hover:shadow-[0_10px_30px_rgba(6,182,212,0.15)] h-full">
+                                    <h3 className="text-4xl md:text-5xl font-outfit font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple mb-2">10+</h3>
+                                    <p className="text-sm font-medium text-textMuted uppercase tracking-widest group-hover:text-white transition-colors">Events Anchored</p>
+                                </div>
+                            </Reveal>
+                        </div>
                     </div>
                 </section>
             );
@@ -530,28 +633,26 @@
 
         const Skills = () => {
             return (
-                <section id="skills" className="py-24 relative z-10 bg-[#0B0F19]">
-                    <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMCIgY3k9IjAiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wMykiLz48L3N2Zz4=')] opacity-30"></div>
-                    
-                    <div className="max-w-6xl mx-auto px-6 relative z-10">
+                <section id="skills" className="py-24 relative z-10 bg-black/20">
+                    <div className="max-w-7xl mx-auto px-6">
                         <SectionHeading title="Technical Ecosystem" subtitle={true} />
                         
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-16">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
                             {skillsGridData.map((category, index) => (
                                 <Reveal key={index} delay={index * 0.1} direction="up">
-                                    <div className="glass-card rounded-3xl p-8 relative overflow-hidden group hover:border-purple/30 transition-all duration-500 h-full flex flex-col">
+                                    <div className="glass-card rounded-3xl p-8 h-full flex flex-col group hover:border-cyan/30 transition-all duration-500 relative overflow-hidden">
                                         {/* Background Glow */}
-                                        <div className={`absolute -top-24 -right-24 w-48 h-48 bg-gradient-to-br ${category.glow} rounded-full filter blur-[60px] group-hover:scale-150 transition-transform duration-700`}></div>
+                                        <div className={`absolute top-0 right-0 w-64 h-64 bg-gradient-to-br ${category.glow} rounded-full filter blur-[80px] opacity-30 group-hover:opacity-60 transition-opacity duration-500 -translate-y-1/2 translate-x-1/4 pointer-events-none`}></div>
                                         
                                         <div className="relative z-10">
                                             <div className="flex items-center gap-4 mb-8">
-                                                <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-cyan shadow-lg shadow-black/50">
+                                                <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-cyan shadow-lg shadow-black/20 group-hover:scale-110 group-hover:text-purple transition-all duration-300">
                                                     {category.icon}
                                                 </div>
-                                                <h3 className="text-2xl font-outfit font-bold text-white tracking-wide">{category.category}</h3>
+                                                <h3 className="text-2xl font-outfit font-bold text-white">{category.category}</h3>
                                             </div>
                                             
-                                            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-3 lg:grid-cols-4 gap-4 flex-grow content-start">
+                                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 flex-grow">
                                                 {category.skills.map((skill, idx) => (
                                                     <div key={idx} className="flex flex-col items-center justify-center gap-3 p-4 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-cyan/30 hover:-translate-y-1 transition-all duration-300 cursor-default group/item shadow-lg shadow-black/20">
                                                         <div className="w-10 h-10 flex items-center justify-center transition-transform duration-300 group-hover/item:scale-110">
@@ -715,7 +816,7 @@
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-purple/20 rounded-full blur-[120px] opacity-20 mix-blend-screen pointer-events-none"></div>
 
                     <div className="max-w-[90rem] mx-auto px-4 sm:px-6 relative z-20">
-                        <SectionHeading title="Cinematic Journey" subtitle={true} />
+                        <SectionHeading title="Milestones That Shaped Me" subtitle={true} />
                         
                         <Reveal>
                             <div className="relative w-full h-[650px] md:h-[550px] mt-12 md:mt-20 flex items-center justify-center perspective-[2000px]"
@@ -729,8 +830,8 @@
                                     if (offset > len / 2) offset -= len;
                                     if (offset < -len / 2) offset += len;
 
-                                    // Dynamic Classes based on Offset
-                                    let containerClasses = "absolute transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] w-full max-w-sm md:max-w-5xl rounded-[2rem] overflow-hidden glass-card border border-white/10 flex flex-col md:flex-row shadow-2xl bg-dark/80 backdrop-blur-2xl";
+                                    // 👇 FIXED FRAME SIZE APPLIED HERE (h-[600px] md:h-[500px]) 👇
+                                    let containerClasses = "absolute transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] w-full max-w-sm md:max-w-5xl h-[600px] md:h-[500px] rounded-[2rem] overflow-hidden glass-card border border-white/10 flex flex-col md:flex-row shadow-2xl bg-dark/80 backdrop-blur-2xl";
                                     let zIndex = 20 - Math.abs(offset);
                                     
                                     if (offset === 0) {
@@ -760,12 +861,12 @@
                                             }}
                                         >
                                             {/* LEFT SIDE: Image Container */}
-                                            <div className="relative w-full md:w-[45%] h-[250px] md:h-full overflow-hidden group bg-black shrink-0">
-                                                {/* Image Placeholder (Works for any aspect ratio via object-cover) */}
+                                            <div className="relative w-full md:w-[45%] h-[280px] md:h-full overflow-hidden group bg-black shrink-0">
+                                                {/* 👇 object-center ensures the middle of the image is never cut off 👇 */}
                                                 <img 
                                                     src={item.image} 
                                                     alt={item.title} 
-                                                    className={`w-full h-full object-cover transition-transform duration-1000 ease-out ${offset === 0 ? 'group-hover:scale-110' : ''}`}
+                                                    className={`w-full h-full object-cover object-center transition-transform duration-1000 ease-out ${offset === 0 ? 'group-hover:scale-110' : ''}`}
                                                 />
                                                 {/* Premium Dark Gradients for blending */}
                                                 <div className="absolute inset-0 bg-gradient-to-t from-dark/90 via-dark/20 to-transparent"></div>
@@ -778,7 +879,7 @@
                                             </div>
                                             
                                             {/* RIGHT SIDE: Content */}
-                                            <div className="relative w-full md:w-[55%] p-6 md:p-12 flex flex-col justify-center bg-dark/40">
+                                            <div className="relative w-full md:w-[55%] p-6 md:p-12 flex flex-col justify-center bg-dark/40 flex-grow">
                                                 {/* Decorative Icon */}
                                                 <div className="absolute top-8 right-8 w-12 h-12 bg-gradient-to-br from-purple/20 to-cyan/20 rounded-full flex items-center justify-center text-cyan shadow-[0_0_20px_rgba(6,182,212,0.3)] hidden md:flex border border-cyan/30">
                                                     <Icons.Trophy />
@@ -903,24 +1004,24 @@
                                 
                                 <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-12">
                                     {/* 👇 PUT YOUR RESUME FILE NAME HERE 👇 */}
-                                    <a href="Sakshi_Resume.pdf" target="_blank" className="w-full sm:w-auto px-8 py-4 bg-white/10 text-white rounded-xl font-medium border border-white/10 hover:bg-white/20 transition-all duration-300 flex items-center justify-center gap-2">
+                                    <a href="file:///C:/Users/vadga/OneDrive/Desktop/Portfolio/Resume.pdf" target="_blank" className="w-full sm:w-auto px-8 py-4 bg-white/10 text-white rounded-xl font-medium border border-white/10 hover:bg-white/20 transition-all duration-300 flex items-center justify-center gap-2">
                                         <Icons.Download /> Download Resume
                                     </a>
                                     
                                     {/* 👇 PUT YOUR EMAIL HERE 👇 */}
-                                    <a href="mailto:sakshi@example.com" className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-purple to-cyan text-white rounded-xl font-medium shadow-lg shadow-purple/25 hover:shadow-cyan/25 transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center gap-2">
+                                    <a href="mailto:vadgavesakshi8@gmail.com" className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-purple to-cyan text-white rounded-xl font-medium shadow-lg shadow-purple/25 hover:shadow-cyan/25 transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center gap-2">
                                         <Icons.Mail /> Email Me
                                     </a>
                                 </div>
                                 
                                 <div className="flex items-center justify-center gap-8 border-t border-white/10 pt-8">
                                     {/* 👇 PUT YOUR GITHUB PROFILE LINK HERE 👇 */}
-                                    <a href="https://github.com/yourusername" target="_blank" className="text-textMuted hover:text-white transition-colors flex items-center gap-2">
+                                    <a href="https://github.com/sakshi-vadgave" target="_blank" className="text-textMuted hover:text-white transition-colors flex items-center gap-2">
                                         <Icons.Github /> <span className="hidden sm:inline">GitHub</span>
                                     </a>
                                     
                                     {/* 👇 PUT YOUR LINKEDIN PROFILE LINK HERE 👇 */}
-                                    <a href="https://linkedin.com/in/yourprofile" target="_blank" className="text-textMuted hover:text-cyan transition-colors flex items-center gap-2">
+                                    <a href="https://www.linkedin.com/in/sakshi-vadgave-554505357?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" className="text-textMuted hover:text-cyan transition-colors flex items-center gap-2">
                                         <Icons.Linkedin /> <span className="hidden sm:inline">LinkedIn</span>
                                     </a>
                                 </div>
@@ -965,7 +1066,7 @@
                     contents: [{ parts: [{ text: userMessage }] }],
                     systemInstruction: {
                         parts: [{ 
-                            text: "You are the AI assistant for Sakshi Sunil Vadgave's portfolio website. You speak on her behalf, politely and professionally. Here is Sakshi's info: She is a 5th-semester Diploma student in Computer Science and Engineering at Yashwantrao Chavan Polytechnic. She secured 1st rank (93.06%) in 1st sem, 2nd rank (94.59%) in 2nd sem, and 2nd rank (93.41%) in 3rd sem. She built 'Srishti' (an AI text summarization app) and 'Deepfake AI Detector'. She is a Google Student Ambassador 2025 (Gemini 2.0 Program), and winner of multiple presentation and speech competitions. She excels in C, C++, Java, Python, AI, leadership, and event anchoring. Keep your answers relatively short (1-3 sentences max) and conversational." 
+                            text: "You are the AI assistant for Sakshi Sunil Vadgave's portfolio website. You speak on her behalf, politely and professionally. Here is Sakshi's info: She is a 2nd year Diploma student in Computer Science and Engineering at Yashwantrao Chavan Polytechnic. She secured 1st rank (93.06%) in 1st sem, 2nd rank (94.59%) in 2nd sem, and 2nd rank (93.41%) in 3rd sem. She built 'Srishti' (an AI text summarization app) and 'Deepfake AI Detector'. She is a Google Student Ambassador 2025 (Gemini 2.0 Program), and winner of multiple presentation and speech competitions. She excels in C, C++, Java, Python, AI, leadership, and event anchoring. Keep your answers relatively short (1-3 sentences max) and conversational." 
                         }]
                     }
                 };
