@@ -705,6 +705,7 @@
                         });
                         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                         const data = await response.json();
+                        
                         setInsights(prev => ({...prev, [projectIndex]: data.candidates?.[0]?.content?.parts?.[0]?.text || "A fantastic demonstration of modern problem solving."}));
                         break;
                     } catch (error) {
